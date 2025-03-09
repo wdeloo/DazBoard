@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@cloudflare/speedtest": "^1.4.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "svg-world-map": "^1.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

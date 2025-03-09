@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'FunnelDisplay';
+    src: url('/fonts/Funnel_Display/static/FunnelDisplay-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'FunnelDisplay';
+    src: url('/fonts/Funnel_Display/static/FunnelDisplay-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: "FunnelDisplay";
+}
