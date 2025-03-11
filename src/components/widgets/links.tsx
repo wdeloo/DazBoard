@@ -1,6 +1,27 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import { GlobalContext } from '../../context/global'
-import { arrayMoveImmutable, arrayMoveMutable } from 'array-move'
+import { arrayMoveImmutable } from 'array-move'
+
+function Trash({ width, height, color }: { width?: number, height?: number, color?: string }) {
+    return (
+        <svg fill={color ?? "#FFFFFF"} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" 
+            width={width} height={height} viewBox="0 0 408.483 408.483"
+        >
+            <g>
+                <g>
+                    <path d="M87.748,388.784c0.461,11.01,9.521,19.699,20.539,19.699h191.911c11.018,0,20.078-8.689,20.539-19.699l13.705-289.316
+                        H74.043L87.748,388.784z M247.655,171.329c0-4.61,3.738-8.349,8.35-8.349h13.355c4.609,0,8.35,3.738,8.35,8.349v165.293
+                        c0,4.611-3.738,8.349-8.35,8.349h-13.355c-4.61,0-8.35-3.736-8.35-8.349V171.329z M189.216,171.329
+                        c0-4.61,3.738-8.349,8.349-8.349h13.355c4.609,0,8.349,3.738,8.349,8.349v165.293c0,4.611-3.737,8.349-8.349,8.349h-13.355
+                        c-4.61,0-8.349-3.736-8.349-8.349V171.329L189.216,171.329z M130.775,171.329c0-4.61,3.738-8.349,8.349-8.349h13.356
+                        c4.61,0,8.349,3.738,8.349,8.349v165.293c0,4.611-3.738,8.349-8.349,8.349h-13.356c-4.61,0-8.349-3.736-8.349-8.349V171.329z"/>
+                    <path d="M343.567,21.043h-88.535V4.305c0-2.377-1.927-4.305-4.305-4.305h-92.971c-2.377,0-4.304,1.928-4.304,4.305v16.737H64.916
+                        c-7.125,0-12.9,5.776-12.9,12.901V74.47h304.451V33.944C356.467,26.819,350.692,21.043,343.567,21.043z"/>
+                </g>
+            </g>
+        </svg>
+    )
+}
 
 export interface Link {
     name: string
@@ -24,21 +45,18 @@ const imagePadding = 8
 const elementsGap = 8
 
 export default function Links() {
-    const [dragging, setDragging] = useState<Dragging>({ what: NaN, is: false, x: NaN })
-    const [movedElements, setMovedElements] = useState<MovedElements>({ movedElements: [], direction: null })
-
     const globalContext = useContext(GlobalContext)
-
+    
     const setLinkMenu = globalContext.linkMenu[1]
     const [newLink, setNewLink] = globalContext.newLink
 
+    const [dragging, setDragging] = useState<Dragging>({ what: NaN, is: false, x: NaN })
+    const [movedElements, setMovedElements] = useState<MovedElements>({ movedElements: [], direction: null })
+    const [overTrash, setOverTrash] = useState(false)
+    const [links, setLinks] = useState<Link[]>([])
+
     const linksRef = useRef<HTMLDivElement>(null)
     const styleRef = useRef<HTMLStyleElement>(null)
-
-    const [links, setLinks] = useState<Link[]>([    { name: 'GitHub', host: 'github.com', protocol: 'https' },
-        { name: 'YouTube', host: 'youtube.com', protocol: 'https' },
-        { name: 'ChatGPT', host: 'chatgpt.com', protocol: 'https' },])
-
     const draggingRef = useRef(dragging)
 
     function openMenu() {
@@ -52,9 +70,22 @@ export default function Links() {
     useEffect(() => {
         if (newLink === null) return
 
-        setLinks(prev => [ ...prev, newLink ])
+        setLinks(prev => {
+            const newLinks = [ ...prev, newLink ]
+            updateLocalStorage(newLinks)
+            return newLinks
+        })
         setNewLink(null)
     }, [newLink])
+
+    useEffect(() => {
+        const newLinks = JSON.parse(localStorage.getItem('links') ?? '[]')
+        setLinks(newLinks)
+    }, [])
+
+    const getUrl = (what: number) => {
+        return links[what].protocol + '://' + links[what].host
+    }
 
     function handleLinkPress(what: number) {
         const links = linksRef.current
@@ -86,7 +117,7 @@ export default function Links() {
 
         const mouse = e.clientX
 
-        links.querySelectorAll('[data-icon="1"], button').forEach(link => {
+        links.querySelectorAll('[data-icon="1"], button, #trash').forEach(link => {
             const element = link as HTMLElement
 
             const elementRect = element.getBoundingClientRect()
@@ -119,13 +150,13 @@ export default function Links() {
         const links = linksRef.current
         if (!links) return
 
-        links.querySelectorAll('[data-icon="1"], button').forEach(link => {
+        links.querySelectorAll('[data-icon="1"], button, #trash').forEach(link => {
             const element = link as HTMLElement
 
             element.style.width = elementSize + 'px'
             element.style.height = elementSize + 'px'
 
-            const img = element.children[0] as HTMLImageElement | HTMLSpanElement
+            const img = element.children[0] as HTMLElement
 
             img.style.transform = ''
         })
@@ -149,7 +180,23 @@ export default function Links() {
         }
     }, [])
 
-    function getMovedElements(newX: number, what: number, links: HTMLElement): MovedElements {
+    function updateLocalStorage(links: Link[]) {
+        const json = JSON.stringify(links)
+        localStorage.setItem('links', json)
+    }
+
+    function isOverTrash(x: number, links: HTMLElement) {
+        const trash = (links.querySelector("#trash") as HTMLElement).getBoundingClientRect()
+
+        if (
+            x <= trash.left + elementSize / 2
+        &&
+            x >= trash.left - elementSize / 2
+        ) return true
+        return false
+    }
+
+    function getMovedElements(x: number, what: number, links: HTMLElement): MovedElements {
         const movedElements: MovedElements["movedElements"] = []
         let direction: MovedElements["direction"] = null
 
@@ -161,12 +208,12 @@ export default function Links() {
             const rect = (link.parentElement as HTMLElement).getBoundingClientRect()
 
             if (index < what) {
-                if (newX <= rect.left + elementSize / 2) {
+                if (x <= rect.left + elementSize / 2) {
                     movedElements.push(index)
                     direction = 'r'
                 }
             } else {
-                if (newX >= rect.left - elementSize / 2) {
+                if (x >= rect.left - elementSize / 2) {
                     movedElements.push(index)
                     direction = 'l'
                 }
@@ -202,8 +249,11 @@ export default function Links() {
 
         const movedElements = getMovedElements(newX, what, links)
 
+        const overTrash = isOverTrash(newX, links)
+
+        setOverTrash(overTrash)
         setMovedElements(movedElements)
-        setDragging(prev => {return { ...prev, is: true, x: newX - linksRect.left }})
+        setDragging(prev => {return { ...prev, is: true, x: Math.min(Math.max(newX - linksRect.left, 0), linksRect.width - elementSize) }})
     }
 
     function stopDragging(e: MouseEvent) {
@@ -214,6 +264,9 @@ export default function Links() {
 
         if (isNaN(draggingRef.current.x)) {
             handleLinkPress(draggingRef.current.what)
+
+            const url = getUrl(draggingRef.current.what)
+            setTimeout(() => window.location.href = url, 100)
         }
 
         const links = (linksRef.current as HTMLElement)
@@ -222,22 +275,32 @@ export default function Links() {
 
         const { movedElements, direction } = getMovedElements(newX, draggingRef.current.what, links)
 
+        const overTrash = isOverTrash(newX, links)
+
         setLinks(prev => {
-            const position = draggingRef.current.what
-
-            let newPosition
-            if (direction === 'r') {
-                newPosition = Math.min(...movedElements)
-            } else if (direction === 'l') {
-                newPosition = Math.max(...movedElements)
+            if (overTrash) {
+                const newLinks = [...prev.slice(0, draggingRef.current.what), ...prev.slice(draggingRef.current.what + 1)]
+                updateLocalStorage(newLinks)
+                return newLinks
             } else {
-                return prev
+                const position = draggingRef.current.what
+    
+                let newPosition
+                if (direction === 'r') {
+                    newPosition = Math.min(...movedElements)
+                } else if (direction === 'l') {
+                    newPosition = Math.max(...movedElements)
+                } else {
+                    return prev
+                }
+    
+                const newLinks = arrayMoveImmutable(prev, position, newPosition)
+                updateLocalStorage(newLinks)
+                return newLinks
             }
-
-            const newLinks = arrayMoveImmutable(prev, position, newPosition)
-            return newLinks
         })
 
+        setOverTrash(false)
         setMovedElements({ movedElements: [], direction: null })
         setDragging({ what: NaN, is: false, x: NaN })
 
@@ -253,17 +316,34 @@ export default function Links() {
 
     return (
         <div style={{ height: elementSize, minHeight: elementSize, maxHeight: elementSize, gap: elementsGap }} ref={linksRef} className='flex flex-row relative items-end justify-center select-none'>
-            {links.map(({ name, host }, i) => {
+            <div
+                className='flex will-change-[width,height,transform] items-center justify-center bg-white rounded-lg transition-transform'
+                style={{ width: elementSize, height: elementSize, transform: overTrash ? "scale(1.2)" : "scale(1)" }}
+                draggable={false}
+                id='trash'
+            >
+                <div
+                    className='bg-gray-600 rounded-md flex justify-center items-center'
+                    style={{
+                        width: elementSize - imagePadding,
+                        height: elementSize - imagePadding,
+                    }}
+                >
+                    <Trash color="#FFFFFF" width={elementSize - imagePadding * 3} height={elementSize - imagePadding * 3} />
+                </div>
+            </div>
+            {links.map(({ protocol, name, host }, i) => {
                 const beingDragged = dragging.is && dragging.what === i
 
                 return (
                     <div key={i} style={{ width: beingDragged ? elementSize : undefined, height: beingDragged ? elementSize : undefined }}>
-                        <div
+                        <a
                             data-icon="1"
                             data-index={i}
                             draggable={false}
                             onMouseDown={e => startDragging(e, i)}
                             onMouseUp={e => wheelClick(e, i)}
+                            onClick={e => e.preventDefault()}
                             style={{
                                 width: elementSize,
                                 height: elementSize,
@@ -275,7 +355,8 @@ export default function Links() {
                                 transition: dragging.is ? '150ms transform' : undefined,
                             }}
                             title={name}
-                            className='bg-white cursor-pointer rounded-lg flex justify-center will-change-transform items-center overflow-hidden'
+                            className='bg-white cursor-pointer rounded-lg flex justify-center will-change-[width,height,transform] items-center overflow-hidden'
+                            href={beingDragged ? undefined : `${protocol}://${host}`}
                         >
                             <img
                                 draggable={false}
@@ -284,7 +365,7 @@ export default function Links() {
                                 className='rounded-md will-change-transform'
                                 src={`https://www.google.com/s2/favicons?sz=64&domain=${host}`}
                             />
-                        </div>
+                        </a>
                     </div>
                 )
             })}
