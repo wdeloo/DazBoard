@@ -42,13 +42,13 @@ export default function Sun() {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="text-3xl flex flex-row items-center justify-center gap-2">
+            <div className="text-3xl flex flex-row items-center justify-center gap-2 font-medium">
                 <img className="ml-[-16px]" src="/images/sunsetrise.svg" width={70} />
-                <div><span className="text-neutral-600">{day ? 'Sunset' : 'Sunrise'} in</span> {Boolean(timeUntilEvent.hours) && `${timeUntilEvent.hours}h`} {timeUntilEvent.minutes}min</div>
+                <div><span className="text-neutral-600 font-normal">{day ? 'Sunset' : 'Sunrise'} in</span> {Boolean(timeUntilEvent.hours) && `${timeUntilEvent.hours}h`} {timeUntilEvent.minutes}min</div>
             </div>
             <div className="text-2xl flex flex-row justify-between">
-                <span className="text-neutral-600">🌞 Sunrise: <span className="text-black">{`${sunDates.sunrise.getHours()}:${sunDates.sunrise.getMinutes().toString().padStart(2, '0')}`}</span></span>
-                <span className="text-neutral-600">🌛 Sunset: <span className="text-black">{`${sunDates.sunset.getHours()}:${sunDates.sunset.getMinutes().toString().padStart(2, '0')}`}</span></span>
+                <span className="text-neutral-600">🌞 Sunrise: <span className="text-black font-medium">{`${sunDates.sunrise.getHours().toString().padStart(2, '0')}:${sunDates.sunrise.getMinutes().toString().padStart(2, '0')}`}</span></span>
+                <span className="text-neutral-600">🌛 Sunset: <span className="text-black font-medium">{`${sunDates.sunset.getHours().toString().padStart(2, '0')}:${sunDates.sunset.getMinutes().toString().padStart(2, '0')}`}</span></span>
             </div>
         </div>
     )

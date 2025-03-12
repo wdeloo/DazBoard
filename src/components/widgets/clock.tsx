@@ -22,5 +22,5 @@ export default function Clock() {
         return () => clearInterval(int)
     }, [])
 
-    return <span className="text-6xl">{time.hours}:{time.minutes}</span>
+    return <span className="text-6xl font-medium">{time.hours}:{time.minutes}</span>
 }

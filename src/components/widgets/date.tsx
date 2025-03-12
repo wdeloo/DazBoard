@@ -28,9 +28,9 @@ export default function Date() {
         <div className="text-3xl flex flex-row items-center gap-4">
             <div className="flex flex-col text-right">
                 <span className="text-neutral-600">{date.weekday}</span>
-                <span>{date.month}</span>
+                <span className="font-medium">{date.month}</span>
             </div>
-            <span className="text-6xl">{date.day}</span>
+            <span className="text-6xl font-medium">{date.day}</span>
         </div>
     )
 }

@@ -133,12 +133,12 @@ export default function Weather() {
     return (
         <div className="flex flex-row justify-between">
             <ul className="flex flex-col text-2xl text-neutral-600 text-left h-[148px] justify-between">
-                <li>🌡️ Feels like: <span className="text-black">{weather.feelsLike}ºC</span></li>
-                <li>💧 Humidity: <span className="text-black">{weather.humidity}%</span></li>
-                <li>🍃 Wind: <span className="text-black">{weather.windspeed}km/h</span></li>
-                <li>👁️ Visibility: <span className="text-black">{weather.visibility}km</span></li>
+                <li>🌡️ Feels like: <span className="text-black font-medium">{weather.feelsLike}ºC</span></li>
+                <li>💧 Humidity: <span className="text-black font-medium">{weather.humidity}%</span></li>
+                <li>🍃 Wind: <span className="text-black font-medium">{weather.windspeed}km/h</span></li>
+                <li>👁️ Visibility: <span className="text-black font-medium">{weather.visibility}km</span></li>
             </ul>
-            <div className="flex flex-col items-center min-w-40 justify-center">{weather.weatherIconSrc ? <div style={{ marginLeft: weather.weatherCode === 113 ? '-64px' : 0, marginBottom: weather.weatherCode === 113 ? '-20px' : 0 }}><img title={weather.weather} width={weather.weatherCode === 113 ? 120 : 100} src={weather.weatherIconSrc} /></div> : null}<div className="flex flex-row items-start text-5xl font-bold">{weather.temperature}<span className="text-base text-neutral-600">ºC</span></div></div>
+            <div className="flex flex-col items-center min-w-40 justify-center">{weather.weatherIconSrc ? <div style={{ marginLeft: weather.weatherCode === 113 ? '-64px' : 0, marginBottom: weather.weatherCode === 113 ? '-20px' : 0 }}><img title={weather.weather} width={weather.weatherCode === 113 ? 120 : 100} src={weather.weatherIconSrc} /></div> : null}<div className="flex flex-row items-start text-5xl font-semibold">{weather.temperature}<span className="text-base text-neutral-600">ºC</span></div></div>
         </div>
     )
 }
