@@ -128,6 +128,8 @@ function Svg({ countryCode, width, height }: { countryCode: string, width?: numb
         if (!svg) return
 
         observer.observe(svg)
+
+        return () => observer.disconnect()
     }, [countryCode])
 
     useEffect(() => {
