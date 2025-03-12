@@ -14,7 +14,7 @@ export default function App() {
                     backgroundPositionY: "center",
                 }}
             >
-                <div className="w-full h-full backdrop-brightness-75">
+                <div className="w-full h-full backdrop-brightness-75 overflow-y-auto">
                     <div className="max-w-5xl w-full p-4 m-auto backdrop-filter gap-4 flex flex-col">
                         <Upper />
                         <Middle />
