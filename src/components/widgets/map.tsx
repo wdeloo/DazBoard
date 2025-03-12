@@ -175,7 +175,7 @@ function Svg({ countryCode, width, height }: { countryCode: string, width?: numb
             viewBox="0 0 1009.6727 665.96301"
             width={width}
             height={height}
-            className="will-change-transform cursor-pointer"
+            className="will-change-transform cursor-pointer h-full w-full"
             onClick={() => setZoom(prev => !prev)}
             style={{ transition: transition ? '1000ms ease-in' : undefined, transform: zoom ? svgTransformZoom : "translateX(0px) translateY(0px) scale(1)" }}
             fill={ zoom ? "#3f3f3f" : "#171717" }>
