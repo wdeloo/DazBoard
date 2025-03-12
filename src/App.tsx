@@ -3,6 +3,7 @@ import Lower from "./components/pieces/lower"
 import Middle from "./components/pieces/middle"
 import Upper from "./components/pieces/upper"
 import GlobalProvider from "./context/global"
+import LinksMenu from "./components/linksMenu"
 
 export default function App() {
     const [margin, setMargin] = useState(0)
@@ -46,6 +47,7 @@ export default function App() {
                     backgroundPositionY: "center",
                 }}
             >
+                <LinksMenu />
                 <div className="w-full h-full backdrop-brightness-75 overflow-y-auto">
                     <div ref={dashboardRef} style={{ marginTop: margin, marginBottom: margin }} className="max-w-5xl p-4 h-fit backdrop-filter gap-4 flex flex-col mx-auto">
                         <Upper />
