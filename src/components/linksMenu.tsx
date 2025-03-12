@@ -16,6 +16,21 @@ function parseUrl(url: string) {
     return { protocol, host }
 }
 
+function parseIcon(icon: string) {
+    const divided = icon.split('://')
+
+    let protocol, host
+    if (divided.length < 2) {
+        protocol = 'https'
+        host = divided[0]
+    } else {
+        protocol = divided[0]
+        host = divided[1]
+    }
+
+    return `${protocol}://${host}`
+}
+
 export default function LinksMenu() {
     const globalContext = useContext(GlobalContext)
 
@@ -25,23 +40,28 @@ export default function LinksMenu() {
     const formRef = useRef<HTMLFormElement>(null)
     const nameRef = useRef<HTMLInputElement>(null)
     const urlRef = useRef<HTMLInputElement>(null)
+    const iconRef = useRef<HTMLInputElement>(null)
 
     if (!linkMenu) return
 
     function create(e: React.FormEvent) {
         e.preventDefault()
 
-        if (!nameRef.current || !urlRef.current) return
+        if (!nameRef.current || !urlRef.current || !iconRef.current) return
 
         const name = nameRef.current.value
         const url = urlRef.current.value
+        let icon = iconRef.current.value
 
         if (!url) return
         if (url === '://') return
 
-        const { protocol, host } = parseUrl(url)
+        if (icon === '://') return
 
-        setNewLink({ name, protocol, host })
+        const { protocol, host } = parseUrl(url)
+        icon = parseIcon(icon)
+
+        setNewLink({ name, protocol, host, icon })
         setLinkMenu(false)
     }
 
@@ -62,6 +82,7 @@ export default function LinksMenu() {
                 <h1 className="text-2xl font-bold">New Link</h1>
                 <form ref={formRef} onSubmit={create} onReset={cancel} className="flex flex-col gap-2">
                     <input ref={nameRef} className="p-1 w-full outline-none rounded-sm text-black placeholder:text-neutral-500 bg-gray-300" type="text" placeholder="Name (optional)" />
+                    <input ref={iconRef} className="p-1 w-full outline-none rounded-sm text-black placeholder:text-neutral-500 bg-gray-300" type="text" placeholder="Icon URL (auto if not set)" />
                     <input ref={urlRef} className="p-1 w-[50ch] rounded-sm outline-none text-black placeholder:text-neutral-500 bg-gray-300" type="text" placeholder="URL" />
 
                     <div className="flex flex-row font-bold mt-1 justify-evenly">

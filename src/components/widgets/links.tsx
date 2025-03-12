@@ -27,6 +27,7 @@ export interface Link {
     name: string
     host: string
     protocol: string
+    icon: string
 }
 
 interface Dragging {
@@ -340,7 +341,7 @@ export default function Links() {
                     <Trash color="#FFFFFF" width={elementSize - imagePadding * 3} height={elementSize - imagePadding * 3} />
                 </div>
             </div>
-            {links.map(({ protocol, name, host }, i) => {
+            {links.map(({ protocol, name, host, icon }, i) => {
                 const beingDragged = dragging.is && dragging.what === i
 
                 return (
@@ -371,7 +372,7 @@ export default function Links() {
                                 width={elementSize - imagePadding}
                                 height={elementSize - imagePadding}
                                 className='rounded-md will-change-transform'
-                                src={`https://www.google.com/s2/favicons?sz=64&domain=${host}`}
+                                src={icon || `https://www.google.com/s2/favicons?sz=64&domain=${host}`}
                             />
                         </a>
                     </div>
