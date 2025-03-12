@@ -104,12 +104,12 @@ export default function Speedtest() {
 
     return (
         <div className='flex flex-col h-full gap-4'>
-            <div className='flex text-2xl font-semibold justify-evenly flex-row items-center'>
+            <div className='flex text-2xl font-medium justify-evenly flex-row items-center'>
                 <button onClick={testSpeed} type='button' className='rounded-full overflow-hidden cursor-pointer'>
                     <SpeedSvg loading={loading} width={80} height={80} />
                 </button>
-                <div className='flex flex-col'>Download: <span className='font-normal'>{formatMbps(speed.download)}Mb/s</span></div>
-                <div className='flex flex-col'>Upload: <span className='font-normal'>{formatMbps(speed.upload)}Mb/s</span></div>
+                <div className='flex flex-col'>Download: <span className='font-semibold'>{formatMbps(speed.download)}Mb/s</span></div>
+                <div className='flex flex-col'>Upload: <span className='font-semibold'>{formatMbps(speed.upload)}Mb/s</span></div>
             </div>
             <div className='flex flex-row justify-between text-lg font-medium'>
                 <span><span className='text-neutral-600 font-normal'>🏓 Ping:</span> {formatms(speed.ping)}ms</span>
