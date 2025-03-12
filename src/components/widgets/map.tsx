@@ -5,6 +5,7 @@ function Svg({ countryCode, width, height }: { countryCode: string, width?: numb
     const [zoom, setZoom] = useState(false)
     const [point, setPoint] = useState<{ x: number, y: number }>({ x: NaN, y: NaN })
     const [svgTransformZoom, setSvgTransformZoom] = useState("")
+    const [transition, setTransition] = useState(true)
 
     const svgRef = useRef<SVGSVGElement>(null)
 
@@ -117,19 +118,35 @@ function Svg({ countryCode, width, height }: { countryCode: string, width?: numb
         country.style.fill = "#171717"
     }
 
+    function updateSvgTransformZoom() {
+        setSvgTransformZoom(getSvgTransformZoom())
+    }
+
     useEffect(() => {
         const observer = new ResizeObserver(entries => {
-            entries.forEach(_ => {
-                setSvgTransformZoom(getSvgTransformZoom())
-            })
+            entries.forEach(_ => updateSvgTransformZoom())
         })
+
+        const handleResizeWindow = () => {
+            setTransition(false)
+            setZoom(false)
+            setTimeout(() => {
+                updateSvgTransformZoom()
+                setTransition(true)
+            })
+        }
+
+        window.addEventListener('resize', handleResizeWindow)
 
         const svg = svgRef.current
         if (!svg) return
 
         observer.observe(svg)
 
-        return () => observer.disconnect()
+        return () => {
+            window.removeEventListener('resize', updateSvgTransformZoom)
+            observer.disconnect()
+        }
     }, [countryCode])
 
     useEffect(() => {
@@ -156,9 +173,9 @@ function Svg({ countryCode, width, height }: { countryCode: string, width?: numb
             viewBox="0 0 1009.6727 665.96301"
             width={width}
             height={height}
-            className="transition duration-[1000ms] ease-in will-change-transform cursor-pointer"
+            className="will-change-transform cursor-pointer"
             onClick={() => setZoom(prev => !prev)}
-            style={{ transform: zoom ? svgTransformZoom : "translateX(0px) translateY(0px) scale(1)" }}
+            style={{ transition: transition ? '1000ms ease-in' : undefined, transform: zoom ? svgTransformZoom : "translateX(0px) translateY(0px) scale(1)" }}
             fill={ zoom ? "#3f3f3f" : "#171717" }>
 
             <path
