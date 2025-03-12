@@ -330,6 +330,7 @@ export default function Links() {
                 draggable={false}
                 id='trash'
                 ref={trashRef}
+                title='Drop here to Delete a Bookmark'
             >
                 <div
                     className='bg-gray-600 rounded-md flex justify-center items-center'
@@ -382,7 +383,7 @@ export default function Links() {
                 draggable={false}
                 onClick={openMenu}
                 type='button'
-                title='New'
+                title='New Bookmark'
                 className='flex will-change-[width,height] items-center justify-center font-bold rounded-lg text-white bg-white overflow-hidden'
                 style={{ width: elementSize, height: elementSize, display: links.length >= maxElements ? 'none' : undefined }}
             >
