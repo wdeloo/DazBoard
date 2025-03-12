@@ -17,6 +17,8 @@ function parseUrl(url: string) {
 }
 
 function parseIcon(icon: string) {
+    if (!icon) return ""
+
     const divided = icon.split('://')
 
     let protocol, host
@@ -82,7 +84,7 @@ export default function LinksMenu() {
                 <h1 className="text-2xl font-bold">New Link</h1>
                 <form ref={formRef} onSubmit={create} onReset={cancel} className="flex flex-col gap-2">
                     <input ref={nameRef} className="p-1 w-full outline-none rounded-sm text-black placeholder:text-neutral-500 bg-gray-300" type="text" placeholder="Name (optional)" />
-                    <input ref={iconRef} className="p-1 w-full outline-none rounded-sm text-black placeholder:text-neutral-500 bg-gray-300" type="text" placeholder="Icon URL (auto if not set)" />
+                    <input ref={iconRef} className="p-1 w-full outline-none rounded-sm text-black placeholder:text-neutral-500 bg-gray-300" type="text" placeholder="Icon URL (optional)" />
                     <input ref={urlRef} className="p-1 w-[50ch] rounded-sm outline-none text-black placeholder:text-neutral-500 bg-gray-300" type="text" placeholder="URL" />
 
                     <div className="flex flex-row font-bold mt-1 justify-evenly">
