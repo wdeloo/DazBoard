@@ -43,7 +43,7 @@ export default function Sun() {
     return (
         <div className="flex flex-col gap-4">
             <div className="text-3xl flex flex-row items-center justify-center gap-2 font-semibold">
-                <img className="ml-[-16px]" src="/images/sunsetrise.svg" width={70} />
+                <img className="ml-[-16px]" src={`${import.meta.env.BASE_URL}images/sunsetrise.svg`} width={70} />
                 <div><span className="font-normal">{day ? 'Sunset' : 'Sunrise'} in</span> {Boolean(timeUntilEvent.hours) && `${timeUntilEvent.hours}h`} {timeUntilEvent.minutes}min</div>
             </div>
             <div className="text-2xl flex flex-row justify-between">

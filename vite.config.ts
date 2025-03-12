@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [
     react(),
   ],
-  base: './',
+  base: '/DazBoard/',
   build: {
     outDir: 'dist',
   }
