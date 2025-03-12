@@ -123,11 +123,7 @@ function Svg({ countryCode, width, height }: { countryCode: string, width?: numb
     }
 
     useEffect(() => {
-        const observer = new ResizeObserver(entries => {
-            entries.forEach(_ => updateSvgTransformZoom())
-        })
-
-        const handleResizeWindow = () => {
+        const updateSvgTransformHelper = () => {
             setTransition(false)
             setZoom(false)
             setTimeout(() => {
@@ -136,12 +132,18 @@ function Svg({ countryCode, width, height }: { countryCode: string, width?: numb
             })
         }
 
-        window.addEventListener('resize', handleResizeWindow)
+        const observer = new ResizeObserver(entries => {
+            entries.forEach(_ => updateSvgTransformHelper())
+        })
+
+        window.addEventListener('resize', updateSvgTransformHelper)
 
         const svg = svgRef.current
         if (!svg) return
 
         observer.observe(svg)
+
+        updateSvgTransformHelper()
 
         return () => {
             window.removeEventListener('resize', updateSvgTransformZoom)
