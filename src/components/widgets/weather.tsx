@@ -138,7 +138,7 @@ export default function Weather() {
                 <li>🍃 Wind: <span className="text-black">{weather.windspeed}km/h</span></li>
                 <li>👁️ Visibility: <span className="text-black">{weather.visibility}km</span></li>
             </ul>
-            <div className="flex flex-col items-center min-w-40 justify-center">{weather.weatherIconSrc ? <div style={{ marginLeft: weather.weatherCode === 113 ? '-64px' : 0, marginBottom: weather.weatherCode === 113 ? '-20px' : 0 }}><img width={weather.weatherCode === 113 ? 120 : 100} src={weather.weatherIconSrc} /></div> : null}<div className="flex flex-row items-start text-5xl font-bold">{weather.temperature}<span className="text-base text-neutral-600">ºC</span></div></div>
+            <div className="flex flex-col items-center min-w-40 justify-center">{weather.weatherIconSrc ? <div style={{ marginLeft: weather.weatherCode === 113 ? '-64px' : 0, marginBottom: weather.weatherCode === 113 ? '-20px' : 0 }}><img title={weather.weather} width={weather.weatherCode === 113 ? 120 : 100} src={weather.weatherIconSrc} /></div> : null}<div className="flex flex-row items-start text-5xl font-bold">{weather.temperature}<span className="text-base text-neutral-600">ºC</span></div></div>
         </div>
     )
 }
