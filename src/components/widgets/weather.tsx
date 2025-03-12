@@ -59,6 +59,7 @@ interface Weather {
     feelsLike: number
     windspeed: number
     visibility: number
+    weatherCode: number
 }
 
 async function getLocation(): Promise<Location> {
@@ -81,7 +82,7 @@ export function isDay(nowDate: Date, sunriseDate: Date, sunsetDate: Date) {
 }
 
 export default function Weather() {
-    const [weather, setWeather] = useState<Weather>({temperature: 0, humidity: 0, weather: "", weatherIconSrc: "", feelsLike: 0, windspeed: 0, visibility: 0})
+    const [weather, setWeather] = useState<Weather>({temperature: 0, humidity: 0, weather: "", weatherIconSrc: "", feelsLike: 0, windspeed: 0, visibility: 0, weatherCode: 0})
 
     const [_, setLocation] = useContext(GlobalContext).location
     const [__, setSunDates] = useContext(GlobalContext).sunDates
@@ -108,12 +109,13 @@ export default function Weather() {
         const temperature = current_condition.temp_C
         const humidity = current_condition.humidity
         const weather = current_condition.weatherDesc[0].value
-        const weatherIconSrc = getWeatherIconSrc(Number(current_condition.weatherCode), isDayTime)
+        const weatherCode = Number(current_condition.weatherCode)
+        const weatherIconSrc = getWeatherIconSrc(Number(weatherCode), isDayTime)
         const feelsLike = current_condition.FeelsLikeC
         const windspeed = current_condition.windspeedKmph
         const visibility = current_condition.visibility
     
-        return {temperature, humidity, weather, weatherIconSrc, feelsLike, windspeed, visibility}
+        return {temperature, humidity, weather, weatherIconSrc, feelsLike, windspeed, visibility, weatherCode}
     }
 
     useEffect(() => {
@@ -130,13 +132,13 @@ export default function Weather() {
 
     return (
         <div className="flex flex-row justify-between">
-            <div className="flex flex-col items-center">{weather.weatherIconSrc ? <img width={100} src={weather.weatherIconSrc} /> : null}<span className="text-5xl">{weather.temperature}ºC</span></div>
             <ul className="flex flex-col text-2xl text-neutral-600 text-left h-[148px] justify-between">
                 <li>🌡️ Feels like: <span className="text-black">{weather.feelsLike}ºC</span></li>
                 <li>💧 Humidity: <span className="text-black">{weather.humidity}%</span></li>
                 <li>🍃 Wind: <span className="text-black">{weather.windspeed}km/h</span></li>
                 <li>👁️ Visibility: <span className="text-black">{weather.visibility}km</span></li>
             </ul>
+            <div className="flex flex-col items-center min-w-40 justify-center">{weather.weatherIconSrc ? <div style={{ marginLeft: weather.weatherCode === 113 ? '-64px' : 0, marginBottom: weather.weatherCode === 113 ? '-20px' : 0 }}><img width={weather.weatherCode === 113 ? 120 : 100} src={weather.weatherIconSrc} /></div> : null}<div className="flex flex-row items-start text-5xl font-bold">{weather.temperature}<span className="text-base text-neutral-600">ºC</span></div></div>
         </div>
     )
 }
