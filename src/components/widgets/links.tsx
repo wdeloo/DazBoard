@@ -61,6 +61,7 @@ export default function Links() {
     const linksRef = useRef<HTMLDivElement>(null)
     const styleRef = useRef<HTMLStyleElement>(null)
     const draggingRef = useRef(dragging)
+    const trashRef = useRef<HTMLDivElement>(null)
 
     function openMenu() {
         setLinkMenu(true)
@@ -188,13 +189,16 @@ export default function Links() {
         localStorage.setItem('links', json)
     }
 
-    function isOverTrash(x: number, links: HTMLElement) {
-        const trash = (links.querySelector("#trash") as HTMLElement).getBoundingClientRect()
+    function isOverTrash(x: number) {
+        const trash = trashRef.current
+        if (!trash) return false
+
+        const trashRect = trash.getBoundingClientRect()
 
         if (
-            x <= trash.left + elementSize / 2
+            x <= trashRect.left + elementSize / 2
         &&
-            x >= trash.left - elementSize / 2
+            x >= trashRect.left - elementSize / 2
         ) return true
         return false
     }
@@ -252,7 +256,7 @@ export default function Links() {
 
         const movedElements = getMovedElements(newX, what, links)
 
-        const overTrash = isOverTrash(newX, links)
+        const overTrash = isOverTrash(newX)
 
         setOverTrash(overTrash)
         setMovedElements(movedElements)
@@ -278,7 +282,7 @@ export default function Links() {
 
         const { movedElements, direction } = getMovedElements(newX, draggingRef.current.what, links)
 
-        const overTrash = isOverTrash(newX, links)
+        const overTrash = isOverTrash(newX)
 
         setLinks(prev => {
             if (overTrash) {
@@ -324,6 +328,7 @@ export default function Links() {
                 style={{ width: elementSize, height: elementSize, minWidth: elementSize, minHeight: elementSize, transform: overTrash ? "scale(1.2)" : "scale(1)" }}
                 draggable={false}
                 id='trash'
+                ref={trashRef}
             >
                 <div
                     className='bg-gray-600 rounded-md flex justify-center items-center'
