@@ -121,7 +121,7 @@ export default function Weather() {
             setWeather(await getWeather())
         }
 
-        const int = setInterval(updateWeather, 60000)
+        const int = setInterval(updateWeather, 180000)
 
         updateWeather()
 

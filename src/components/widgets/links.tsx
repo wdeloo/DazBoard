@@ -43,6 +43,9 @@ interface MovedElements {
 const elementSize = 55
 const imagePadding = 8
 const elementsGap = 8
+const maxLinksWidth = 994
+
+const maxElements = Math.floor((maxLinksWidth + elementsGap) / (elementSize + elementsGap)) - (1 /* Trash */) - (2 /* Margin for animation */)
 
 export default function Links() {
     const globalContext = useContext(GlobalContext)
@@ -318,7 +321,7 @@ export default function Links() {
         <div style={{ height: elementSize, minHeight: elementSize, maxHeight: elementSize, gap: elementsGap }} ref={linksRef} className='flex flex-row relative items-end justify-center select-none'>
             <div
                 className='flex will-change-[width,height,transform] items-center justify-center bg-white rounded-lg transition-transform'
-                style={{ width: elementSize, height: elementSize, transform: overTrash ? "scale(1.2)" : "scale(1)" }}
+                style={{ width: elementSize, height: elementSize, minWidth: elementSize, minHeight: elementSize, transform: overTrash ? "scale(1.2)" : "scale(1)" }}
                 draggable={false}
                 id='trash'
             >
@@ -369,7 +372,14 @@ export default function Links() {
                     </div>
                 )
             })}
-            <button draggable={false} onClick={openMenu} type='button' title='New' className='flex will-change-[width,height] items-center justify-center font-bold rounded-lg text-white bg-white overflow-hidden' style={{ width: elementSize, height: elementSize }}>
+            <button
+                draggable={false}
+                onClick={openMenu}
+                type='button'
+                title='New'
+                className='flex will-change-[width,height] items-center justify-center font-bold rounded-lg text-white bg-white overflow-hidden'
+                style={{ width: elementSize, height: elementSize, display: links.length >= maxElements ? 'none' : undefined }}
+            >
                 <span draggable={false} style={{ width: elementSize - imagePadding, height: elementSize - imagePadding }} className='will-change-transform text-5xl rounded-md flex justify-center pb-[2px] items-center bg-gray-600'>+</span>
             </button>
         </div>
