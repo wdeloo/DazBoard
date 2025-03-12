@@ -3,7 +3,7 @@ import { GlobalContext } from "../../context/global"
 
 function Svg({ countryCode, width, height }: { countryCode: string, width?: number, height?: number }) {
     const [zoom, setZoom] = useState(false)
-    const [point, setPoint] = useState<{ x: number, y: number }>({ x: NaN, y: NaN })
+    const [point/*, setPoint*/] = useState<{ x: number, y: number }>({ x: NaN, y: NaN })
     const [svgTransformZoom, setSvgTransformZoom] = useState("")
     const [transition, setTransition] = useState(true)
 
@@ -163,7 +163,7 @@ function Svg({ countryCode, width, height }: { countryCode: string, width?: numb
         // const center = getLargestPathCenter(country)
 
         // setPoint(center)
-        // uncomment all lines in this useEffect & getLargestPathCenter function to show a pin in current country (doesn't wowrk properly)
+        // uncomment all lines in this useEffect, getLargestPathCenter function and setPoint state to show a pin in current country (doesn't wowrk properly)
     }, [countryCode])
 
     // map by https://mapsvg.com/maps/world
