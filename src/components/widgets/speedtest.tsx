@@ -103,7 +103,7 @@ export default function Speedtest() {
     }
 
     return (
-        <div className='flex flex-col h-full justify-between'>
+        <div className='flex flex-col h-full gap-4'>
             <div className='flex text-2xl font-bold justify-evenly flex-row items-center'>
                 <button onClick={testSpeed} type='button' className='rounded-full overflow-hidden cursor-pointer'>
                     <SpeedSvg loading={loading} width={80} height={80} />

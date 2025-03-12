@@ -1194,7 +1194,7 @@ export default function Map() {
     const [location] = useContext(GlobalContext).location
 
     return (
-        <div className="overflow-hidden">
+        <div className="overflow-hidden h-full w-full flex justify-center items-center">
             <Svg countryCode={location.countryCode} />
         </div>
     )

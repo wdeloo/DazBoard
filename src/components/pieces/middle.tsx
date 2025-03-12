@@ -15,15 +15,15 @@ export default function Middle() {
                 <WidgetContainer>
                     <Sun />
                 </WidgetContainer>
-                <WidgetContainer className="flex-grow h-full">
+                <WidgetContainer>
                     <Speedtest />
                 </WidgetContainer>
             </div>
             <div className="flex flex-col flex-grow gap-4">
-                <WidgetContainer height="fit-content">
+                <WidgetContainer>
                     <Location />
                 </WidgetContainer>
-                <WidgetContainer>
+                <WidgetContainer className="flex-grow">
                     <Map />
                 </WidgetContainer>
             </div>
