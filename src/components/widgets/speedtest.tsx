@@ -112,9 +112,9 @@ export default function Speedtest() {
                 <div className='flex flex-col'>Upload: <span className='font-semibold'>{formatMbps(speed.upload)}Mb/s</span></div>
             </div>
             <div className='flex flex-row justify-between text-lg font-medium'>
-                <span><span className='text-neutral-600 font-normal'>🏓 Ping:</span> {formatms(speed.ping)}ms</span>
-                <span><span className='text-neutral-600 font-normal'>📉 Jitter:</span> {formatms(speed.jitter)}ms</span>
-                <span><span className='text-neutral-600 font-normal'>📦 Packet Loss:</span> {formatPercent(speed.packetLoss)}%</span>
+                <span><span className='text-neutral-600 font-normal'><span className="emoji">🏓</span> Ping:</span> {formatms(speed.ping)}ms</span>
+                <span><span className='text-neutral-600 font-normal'><span className="emoji">📉</span> Jitter:</span> {formatms(speed.jitter)}ms</span>
+                <span><span className='text-neutral-600 font-normal'><span className="emoji">📦</span> Packet Loss:</span> {formatPercent(speed.packetLoss)}%</span>
             </div>
         </div>
     )
