@@ -4,6 +4,18 @@
 
 **DazBoard** is a modern, **grid-style** start page for any browser, designed for those who want a comfortable and aesthetically pleasing browsing experience.
 
+## Usage
+
+Set as homepage the url: **https://wdeloo.github.com/DazBoard**.
+
+* In Chrome:
+
+![chrome](images/chrome.png)
+
+* In Firefox:
+
+![firefox](images/firefox.png)
+
 ## Self Hosting
 
 1. Go to the [last release](https://github.com/wdeloo/DazBoard/releases/tag/1.0) and download the **DazBoard.zip** file.
