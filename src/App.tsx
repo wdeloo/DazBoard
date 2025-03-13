@@ -48,7 +48,7 @@ export default function App() {
                 }}
             >
                 <LinksMenu />
-                <div className="w-full h-full backdrop-brightness-75 overflow-y-auto">
+                <div className="w-full h-full overflow-y-auto bg-black bg-opacity-25">
                     <div ref={dashboardRef} style={{ marginTop: margin, marginBottom: margin }} className="max-w-5xl p-4 h-fit backdrop-filter gap-4 flex flex-col mx-auto">
                         <Upper />
                         <Middle />
