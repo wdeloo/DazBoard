@@ -60,6 +60,7 @@ interface Weather {
     windspeed: number
     visibility: number
     weatherCode: number
+    isDayTime: boolean
 }
 
 async function getLocation(): Promise<Location> {
@@ -82,7 +83,7 @@ export function isDay(nowDate: Date, sunriseDate: Date, sunsetDate: Date) {
 }
 
 export default function Weather() {
-    const [weather, setWeather] = useState<Weather>({temperature: 0, humidity: 0, weather: "", weatherIconSrc: "", feelsLike: 0, windspeed: 0, visibility: 0, weatherCode: 0})
+    const [weather, setWeather] = useState<Weather>({temperature: 0, humidity: 0, weather: "", weatherIconSrc: "", feelsLike: 0, windspeed: 0, visibility: 0, weatherCode: 0, isDayTime: true})
 
     const [_, setLocation] = useContext(GlobalContext).location
     const [__, setSunDates] = useContext(GlobalContext).sunDates
@@ -115,7 +116,7 @@ export default function Weather() {
         const windspeed = current_condition.windspeedKmph
         const visibility = current_condition.visibility
     
-        return {temperature, humidity, weather, weatherIconSrc, feelsLike, windspeed, visibility, weatherCode}
+        return {temperature, humidity, weather, weatherIconSrc, feelsLike, windspeed, visibility, weatherCode, isDayTime}
     }
 
     useEffect(() => {
@@ -138,7 +139,21 @@ export default function Weather() {
                 <li><span className="emoji">🍃</span> Wind: <span className="text-black font-medium">{weather.windspeed}km/h</span></li>
                 <li><span className="emoji">👁️</span> Visibility: <span className="text-black font-medium">{weather.visibility}km</span></li>
             </ul>
-            <div className="flex flex-col items-center min-w-40 justify-center">{weather.weatherIconSrc ? <div style={{ marginLeft: weather.weatherCode === 113 ? '-64px' : 0, marginBottom: weather.weatherCode === 113 ? '-20px' : 0 }}><img title={weather.weather} width={weather.weatherCode === 113 ? 120 : 100} src={`${import.meta.env.BASE_URL}${weather.weatherIconSrc}`} /></div> : null}<div className="flex flex-row items-start text-5xl font-semibold">{weather.temperature}<span className="text-base text-neutral-600">ºC</span></div></div>
+            <div className="flex flex-col items-center min-w-40 justify-center">
+                {weather.weatherIconSrc ?
+                    <div style={{
+                        marginLeft: weather.weatherCode === 113 && !weather.isDayTime ? '-64px' : 0,
+                        marginRight: weather.weatherCode === 113 && weather.isDayTime ? '-50px' : 0,
+                        marginBottom: weather.weatherCode === 113 ? '-20px' : 0
+                    }}>
+                        <img title={weather.weather} width={weather.weatherCode === 113 ? 120 : 100} src={`${import.meta.env.BASE_URL}${weather.weatherIconSrc}`} />
+                    </div>
+                : null}
+                <div className="flex flex-row items-start text-5xl font-semibold">
+                    {weather.temperature}
+                    <span className="text-base text-neutral-600">ºC</span>
+                </div>
+            </div>
         </div>
     )
 }
