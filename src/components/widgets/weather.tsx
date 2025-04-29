@@ -133,7 +133,7 @@ export default function Weather() {
 
     return (
         <div className="flex flex-row justify-between">
-            <ul className="flex flex-col text-2xl text-neutral-600 text-left h-[148px] justify-between">
+            <ul className="flex flex-col text-2xl text-neutral-600 text-left h-[148px] justify-between text-nowrap">
                 <li><span className="emoji">🌡️</span> Feels like: <span className="text-black font-medium">{weather.feelsLike}ºC</span></li>
                 <li><span className="emoji">💧</span> Humidity: <span className="text-black font-medium">{weather.humidity}%</span></li>
                 <li><span className="emoji">🍃</span> Wind: <span className="text-black font-medium">{weather.windspeed}km/h</span></li>
