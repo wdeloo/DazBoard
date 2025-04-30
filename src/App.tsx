@@ -43,7 +43,7 @@ export default function App() {
             <main
                 className="w-screen h-screen bg-cover bg-no-repeat"
                 style={{
-                    backgroundImage: `url('${import.meta.env.BASE_URL}background-images/rocks-beach.jpg')`,
+                    backgroundImage: `url('${import.meta.env.BASE_URL}background-images/rocks-beach.webp')`,
                     backgroundPositionY: "center",
                 }}
             >
