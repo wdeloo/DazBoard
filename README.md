@@ -29,7 +29,7 @@ Set as homepage the url: **https://wdeloo.github.com/DazBoard**.
 git clone https://github.com/wdeloo/DazBoard.git
 cd DazBoard
 ```
-2. Install dependencies and build the project::
+2. Install dependencies and build the project:
 ```
 npm install
 npm run build
